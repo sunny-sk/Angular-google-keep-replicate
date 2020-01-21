@@ -1,0 +1,9 @@
+.list-group-item{
+    border:1px solid #b3adad;
+    border-radius: 5px;
+    margin-top:4px
+}
+
+.display-4{
+    font-size:2em;
+}

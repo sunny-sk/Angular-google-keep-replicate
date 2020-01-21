@@ -1,0 +1,49 @@
+<div class="container">
+  <!-- create Node tag -->
+  <app-note-create></app-note-create>
+  <br>
+  <ul class="list-group">
+    <div class="row" *ngIf="notes.length > 0">
+      <div class="col-sm-4" *ngFor="let note of notes">
+        <!-- single note looping through all notes -->
+        <li class="list-group-item">
+          <div>
+           <div class="row">
+             <div class="col">
+                <h4>{{note.title}}</h4> 
+             </div>
+             <!-- checkbox for task Done or note -->
+             <div class="form-check col" *ngIf="!note.done" [formGroup]='form'>
+               <!-- if task not completed -->
+                <input class="form-check-input" formControlName="done" (change)="onMark(note.id)" type="checkbox" value="" id="defaultCheck1">
+                <label class="form-check-label" for="defaultCheck1">
+                  mark as Done
+                </label>
+              </div>
+              <!-- if task completed -->
+              <small *ngIf="note.done">Task Completed</small>
+           </div>
+            <p>{{note.note}}</p>
+            <!-- action buttons -->
+            <div class="button-group">
+              <!-- delete Note -->
+              <button class="btn btn-outline-danger btn-sm" (click)="onDelete(note.id)" >Delete</button>
+              <!-- edit Note -->
+              <button class="btn btn-outline-success btn-sm ml-1" (click)="onEdit(note.id)">Edit</button>
+            </div>
+          </div>
+        </li>
+
+      </div>
+    </div>
+  </ul>
+</div>
+<br><br>
+
+<!-- displaying this if not post added yet -->
+<div class="container text-center" *ngIf="notes.length <= 0">
+  <p class="display-4">No post added yet</p>
+  <div class="empty-note">
+    <i style="font-size:6rem" class="fa fa-folder-open"></i>
+  </div>
+</div>

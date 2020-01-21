@@ -1,0 +1,166 @@
+<!-- overlay Effect -->
+<div class="overlay" (click)="onAnyWhereClick()" [class.active]="showSideBar"></div>
+<!-- top nav Bar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <!-- show side bar -->
+    <button (click)="onShowSideBar()" *ngIf="showSidebarButtonDisplay" type="button"
+      class="showSideBarhidden btn btn-info">
+      <i style="color:black" class="fas fa-align-left"></i>
+    </button>
+    <!-- brand name -->
+    <a class="navbar-brand  top-brand" href="#">Keep Notes</a>
+
+    <!-- show top nav links -->
+    <button class="navbar-toggler" *ngIf="!showSideBar" type="button" data-toggle="collapse"
+      aria-controls="navbarSupportedContent" aria-expanded="false" data-target="#navbarSupportedContent"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- links -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+
+        <!-- <li class="nav-item" style="color:black">
+            <a class="nav-link" href="#">....</a>
+          </li> -->
+      </ul>
+
+      <div class="mr-0">
+        <!-- user -->
+        <ul class="navbar-nav">
+          <li class="nav-item" style="margin-right:15rem">
+            <form>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1"><i class="fa fa-search"></i></span>
+                </div>
+                <input type="text" class="form-control" placeholder="Search Note">
+              </div>
+            </form>
+          </li>
+          <!-- refresh -->
+          <li class="nav-item ml-3 active">
+            <button style="background: none;border:none;padding:none"  class="btn "><i
+                class="fa fa-redo-alt"></i></button>
+          </li>
+          <!-- refresh - spinner -->
+          <!-- <li class="nav-item refresh-spinner ml-3 active" *ngIf="refreshSpinner">
+              <div style="border:none;padding:none"  class="btn refresh-spinner-inner"><i
+                class="fa fa-redo-alt"></i>
+              </div>
+          </li> -->
+          <!-- user -->
+          <li class="nav-item ml-3" routerLinkActive="active">
+            <a style="background: none;border:none;padding:none" routerLink="/auth" class="btn">
+              <i class="fa fa-user"></i>
+            </a>
+          </li>
+
+          <!-- logout -->
+          <!-- <li class="nav-item">
+              <a class="nav-link">
+                login
+              </a>
+            </li> -->
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- side bar -->
+<nav id="sidebar" [class.active]="showSideBar">
+  <div class="">
+    <!-- brand Name + hide side bar  -->
+    <div class="">
+      <!-- brand Name -->
+      <div class="col my-2">
+        <a style="color:black;margin-left: 40px" class="navbar-brand">Keep Notes</a>
+        <div class="btn btn-info" id="dismiss" (click)="onHideSideBar()">
+          <i class="fas fa-align-left"></i>
+        </div>
+      </div>
+
+    </div>
+
+    <!--side bar links -->
+    <div class="components">
+      <!-- side bar Logo -->
+      <div class="container sidebar-logo py-2">
+        <img src="../../assets/img/keep_48dp.png" class="img-fluid mx-5" alt="Keep_note_logo">
+      </div>
+
+      <!-- side bar link item -->
+      <ul class="list-group">
+        <a routerLink="/" routerLinkActive="side-active" [routerLinkActiveOptions]="{exact:true}">
+          <div class="one">
+            <i class="material-icons">
+              list_alt
+            </i>
+          </div>
+          <div class="two">
+            Notes
+          </div>
+        </a>
+
+        <a href="#">
+          <div class="one">
+            <i class="material-icons">
+              watch_later
+            </i>
+          </div>
+          <div class="two">
+            Reminders
+          </div>
+        </a>
+
+        <div style="width:100%;border-top:1px solid rgb(199, 199, 199)" class="my-3"></div>
+
+        <a routerLink="/trash" routerLinkActive="side-active">
+          <div class="one">
+            <i class="material-icons">
+              restore_from_trash
+            </i>
+          </div>
+          <div class="two">
+            Trash
+            <!-- notification badge on trash Link -->
+            <span class="badge badge-primary badge-pill" *ngIf="notifyLength > 0">{{notifyLength}}</span>
+          </div>
+        </a>
+
+        <a routerLink="/feedback" routerLinkActive="side-active">
+          <div class="one">
+            <i class="material-icons">
+              feedback
+            </i>
+          </div>
+          <div class="two">
+            feedback
+          </div>
+        </a>
+        <div style="width:100%;border-top:1px solid rgb(199, 199, 199)" class="my-3"></div>
+        <app-footer></app-footer>
+      </ul>
+    </div>
+  </div>
+</nav>

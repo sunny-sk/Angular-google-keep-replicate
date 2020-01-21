@@ -1,0 +1,39 @@
+<!-- form for creating new Note -->
+<form class="mb-3 form" [formGroup]='form'>
+    <div *ngIf="fullFormVisiblity" class="float-right">
+        <button class="text-muted btn btn-sm  pr-2 pt-1" type="button"
+            (click)="onFullDisplayFormBlur($event)"><b>close</b></button>
+    </div>
+    <div class="container">
+        <!-- Reactive Form -->
+        <div class="form-group" (ngSubmit)="onAddNote()">
+            <!-- title -->
+            <input type="text" formControlName="title" (focus)="onFullDisplayForm()" class="form-control mt-3"
+                placeholder="Title">
+            <!-- note -->
+            <input type="text" formControlName="note" *ngIf="fullFormVisiblity" class="form-control mt-1"
+                placeholder="Take a  note">
+            <!-- reminder -->
+                <input type="date" *ngIf="visibelReminder" formControlName="reminderDate" class="datePicker" class="form-control">
+        </div>
+
+        <div class="down-bar" *ngIf="fullFormVisiblity">
+            <!-- image picker -->
+
+            <input type="file" #filePicker class="form-control" (change)="onImagePicked($event)">
+            <button type="button" (click)="visibleSetReminderForm()" class="btn btn-sm " class="btn"
+                data-toggle="tooltip" data-html="true" title="Add image">
+                <i class="fas fa-stopwatch"></i>
+            </button>
+            
+            <button type="button" (click)="filePicker.click()" class="btn btn-sm " class="btn" title="set Reminder"
+                data-toggle="tooltip" data-html="true">
+                <i class="fas fa-file-image"></i>
+            </button>
+            <!-- add note button -->
+            <button class="btn btn-sm" type="submit" (click)="onAddNote()"><b>Add note</b></button>
+            <!-- cancel creation on new Note button -->
+            <button class="btn btn-sm ml-3 " *ngIf="form.valid" (click)="onCancel()"><b>Cancel</b></button>
+        </div>
+    </div>
+</form>

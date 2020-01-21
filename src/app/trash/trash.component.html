@@ -1,0 +1,29 @@
+<div class="container">
+  <ul class="list-group">
+
+    <div class="row" *ngIf="trashs.length > 0">
+      <!-- looping throuth all trashed Notes -->
+      <div class="col-md-12 col-lg-6  mt-4" *ngFor="let trash of trashs">
+        <li class="list-group-item">
+          <div>
+            <h4><b>Id</b> : {{trash.id}}</h4>
+            <b>Title</b>&nbsp;&nbsp;&nbsp; {{trash.title}}
+            <div class="button-group mt-3">
+              <button class="btn btn-sm btn-dark mr-1" (click)="onRestore(trash.id)">Restore
+                note</button>
+              <button class="btn btn-sm btn-danger ml-1" (click)="onPermanantDelete(trash.id)">Delete
+                permanent</button>
+            </div>
+          </div>
+        </li>
+      </div>
+
+    </div>
+  </ul>
+</div>
+<br><br>
+
+<!-- displaying this if there is no Notes in trash -->
+<div class="container text-center" *ngIf="trashs.length <= 0">
+  <p class="display-4">No trash for restore </p>
+</div>
