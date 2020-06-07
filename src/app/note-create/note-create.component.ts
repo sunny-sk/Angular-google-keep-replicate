@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NotesService } from '../notes-service.service';
-
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-note-create',
   templateUrl: './note-create.component.html',
@@ -12,11 +12,15 @@ export class NoteCreateComponent implements OnInit {
   
   visibelReminder: boolean = false;
   fullFormVisiblity : boolean = false;
+  editMode:boolean = false
   form:FormGroup;
   now = new Date();
   year = this.now.getFullYear(); 
   month = this.now.getMonth()+1;
   date =  this.now.getDate();
+
+  private updateNote: Subscription;
+  private updateNoteId:any = null;
   constructor(private noteService :NotesService) { }
 
   ngOnInit() {
@@ -25,6 +29,16 @@ export class NoteCreateComponent implements OnInit {
       'title' : new FormControl(null,{validators:[Validators.required]}),
       'note' : new FormControl(null,{validators:[Validators.required]}),
       'reminderDate' : new FormControl(null)
+    })
+    this.updateNote = this.noteService.getSingleNoteUpdateListenr().subscribe(note => {
+      console.log(note)
+      this.editMode = true
+      this.onFullDisplayForm()
+      this.updateNoteId = note.id
+      this.form.patchValue({
+        title:note.title,
+        note:note.note
+      })
     })
   }
 
@@ -40,9 +54,8 @@ export class NoteCreateComponent implements OnInit {
 
   // create new Note 
   onAddNote(){
-     
     if(this.form.invalid){
-      console.log("please fill all fields");
+     
       alert("fill all fields");
     }else{
        //calling function for creating new Note
@@ -52,8 +65,22 @@ export class NoteCreateComponent implements OnInit {
     } 
   }
 
+  onUpdateNote(){
+    if(this.form.invalid){
+      alert("fill all fields");
+    }else if(!this.updateNoteId){
+      alert("no id found");
+    } else{
+       this.noteService.setUpdateSingleNote(this.updateNoteId,this.form.value.title,this.form.value.note);
+       this.form.reset();
+       this.editMode = false
+    }
+  }
+
   // on cancel creation of new Note
   onCancel(){
+    this.editMode = false
+    this.updateNoteId = null
     this.form.reset();
   }
 
@@ -73,5 +100,10 @@ export class NoteCreateComponent implements OnInit {
   onImagePicked(){
     console.log("image picked");
   }
+
+  ngOnDestroy() {
+    this.updateNote.unsubscribe();
+  }
+
 
 }

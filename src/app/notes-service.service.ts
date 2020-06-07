@@ -14,6 +14,7 @@ export class NotesService{
   //Subjects for sending update about Notes to the various components
   private notesUpdated = new Subject<note[]>();
   private trashUpdated = new Subject<note[]>();
+  private singleNoteUpdate = new Subject<note>()
    
 
   getPostUpdateListener() {
@@ -21,6 +22,10 @@ export class NotesService{
   }
   getTrashUpdateListener() {
     return this.trashUpdated.asObservable();
+  }
+  
+  getSingleNoteUpdateListenr(){
+    return this.singleNoteUpdate.asObservable();
   }
 
   // fetch all trashed  Notes from localstorage
@@ -32,6 +37,7 @@ export class NotesService{
   // fetch all notes from localstorage
   getAllNotes(){
     this.trashNotes = JSON.parse(localStorage.getItem('notes'))
+    this.notes = [...this.trashNotes]
     return [...this.trashNotes];
   }
    
@@ -41,6 +47,20 @@ export class NotesService{
      const oldNotes = [...JSON.parse(localStorage.getItem('notes'))]; 
      oldNotes.push({id:newId+1,title,note,date:new Date(),done:false});
     this.notes = oldNotes;
+    localStorage.setItem('notes',JSON.stringify(this.notes));
+    this.notesUpdated.next([...this.notes]);  
+  }
+
+  setUpdateSingleNote(id:number,title:string,note:string){
+    const notes = [...this.notes]
+    notes.forEach((el,index) => {
+      if(el.id === id){
+        el.title = title;
+        el.note = note
+      }
+    }
+    )
+    this.notes = [...notes];
     localStorage.setItem('notes',JSON.stringify(this.notes));
     this.notesUpdated.next([...this.notes]);  
   }
@@ -112,6 +132,15 @@ export class NotesService{
       this.trashUpdated.next([...this.trashNotes]);
     }
 
+
+    editNote(id:number){
+      this.notes.forEach(note =>{
+      if(note.id === id){
+        this.singleNoteUpdate.next({...note});
+      }
+      })
+      // console.log(this.notes[id-1])
+    }
 
   }
   

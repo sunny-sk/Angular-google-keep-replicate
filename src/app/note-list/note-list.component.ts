@@ -55,7 +55,7 @@ export class NoteListComponent implements OnInit, OnDestroy {
   }
 
   onEdit(id:number){
-    // 
+    this.noteService.editNote(id)
   }
 
  // unSubscribing subscription  
